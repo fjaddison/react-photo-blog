@@ -1,12 +1,8 @@
 import React, { Component } from 'react'
-import { Button, Navbar, Footer, Icon, NavItem, Row, Input } from 'react-materialize'
-import getRequest from '../requests'
-import postRequest from '../requests'
+import { Navbar, Footer, Icon, NavItem } from 'react-materialize'
+import { getRequest, postRequest } from '../requests'
 import './PicContainer.css'
-
-const buttStyle = {
-  backgroundColor: 'black'
-}
+import SubmitForm from './SubmitForm'
 
 class PicContainer extends Component {
   constructor (props) {
@@ -14,16 +10,24 @@ class PicContainer extends Component {
     this.state = {
       pictures: []
     }
+    this.addPicture = this.addPicture.bind(this)
   }
 
   componentDidMount () {
-    getRequest
+    getRequest()
       .then(response => this.setState({ pictures: response.data }))
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 
-  handlePost () {
-    postRequest
-      .then(response => this.se)
+  addPicture (title, pic) {
+    postRequest(title, pic)
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => console.log(err))
+    console.log(title)
   }
 
   render () {
@@ -38,12 +42,7 @@ class PicContainer extends Component {
     return (
       <div className='container'>
         {pictures}
-        <Row>
-          <Input />
-          <Input />
-          <br />
-          <Button style={buttStyle} type='submit'>Submit Picture</Button>
-        </Row>
+        <SubmitForm addPicture={this.addPicture} />
       </div>
 
     )
