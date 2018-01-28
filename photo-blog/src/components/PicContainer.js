@@ -24,10 +24,9 @@ class PicContainer extends Component {
   addPicture (title, pic) {
     postRequest(title, pic)
     .then(res => {
-      console.log(res)
+      this.setState({pictures: res.data})
     })
     .catch(err => console.log(err))
-    console.log(title)
   }
 
   render () {
